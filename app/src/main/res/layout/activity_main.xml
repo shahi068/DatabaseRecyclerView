@@ -1,70 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="108dp"
-        android:layout_height="348dp"
-        android:layout_marginTop="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputName" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <EditText
+        android:hint="Enter your name"
         android:id="@+id/inputName"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter name:"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <EditText
+        android:hint="Enter your age"
         android:id="@+id/inputAge"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter user age:"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="100dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <EditText
+        android:hint="Enter a new ID"
         android:id="@+id/inputID"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter user ID:"
-        app:layout_constraintTop_toBottomOf="@id/inputName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginRight="100dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/saveDetails"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        android:text="Save"/>
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/updateDetails"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/saveDetails"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        android:text="Update"/>
+        <Button
+            android:text="Save"
+            android:layout_marginHorizontal="8dp"
+            android:id="@+id/saveDetails"
+            android:layout_width="wrap_content"
+            android:backgroundTint="@color/black"
+            android:layout_height="wrap_content" />
 
+        <Button
+            android:layout_marginHorizontal="8dp"
+            android:text="Show All"
+            android:backgroundTint="@color/black"
+            android:id="@+id/btn_show_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <Button
+            android:layout_marginHorizontal="8dp"
+            android:text="Update ID"
+            android:backgroundTint="@color/black"
+            android:id="@+id/updateDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

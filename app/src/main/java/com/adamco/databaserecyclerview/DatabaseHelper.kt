@@ -1,10 +1,10 @@
 package com.adamco.databaserecyclerview
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.content.Context
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(
     context,
@@ -24,7 +24,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         database.execSQL(createTableQuery)
     }
 
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        // Handle database upgrade
     }
 
     fun insertData(user: MyUser): Long {
@@ -36,11 +37,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         return writableDatabase.insert(DatabaseConstants.TABLE_NAME, null, values)
     }
 
-    fun readData() : List<MyUser>{
+    fun readData(): List<MyUser> {
         val userList = mutableListOf<MyUser>()
-        val cursor : Cursor = readableDatabase.query(DatabaseConstants.TABLE_NAME, null, null, null, null, null, null)
+        val cursor: Cursor = readableDatabase.query(DatabaseConstants.TABLE_NAME, null, null, null, null, null, null)
         with(cursor) {
-            while(moveToNext()){
+            while (moveToNext()) {
                 val id = getLong(getColumnIndexOrThrow(DatabaseConstants.COLUMN_ID))
                 val name = getString(getColumnIndexOrThrow(DatabaseConstants.COLUMN_NAME))
                 val age = getInt(getColumnIndexOrThrow(DatabaseConstants.COLUMN_AGE))
@@ -60,9 +61,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         val selection = "${DatabaseConstants.COLUMN_ID} = ?"
         val selectionArg = arrayOf(user.id.toString())
 
-        return writableDatabase.update(DatabaseConstants.TABLE_NAME,values, selection, selectionArg).toLong()
+        return writableDatabase.update(DatabaseConstants.TABLE_NAME, values, selection, selectionArg).toLong()
     }
-
 
     fun deleteUser(id: Long): Long {
         val selection = "${DatabaseConstants.COLUMN_ID} = ?"

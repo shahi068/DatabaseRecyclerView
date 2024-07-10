@@ -20,16 +20,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        myUser = MyUser(null,"",100)
+        myUser = MyUser(null, "", 100)
         databaseHelper = DatabaseHelper(this)
 
         initRecyclerView()
         initViews()
-        fetchData()
     }
-
-
-    private fun fetchData() = userList.addAll(databaseHelper.readData())
 
     private fun initRecyclerView() {
         databaseAdapter = DatabaseAdapter(userList)
@@ -42,43 +38,46 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         with(binding) {
             saveDetails.setOnClickListener {
-
                 val userName = inputName.text.toString()
                 val userAge = inputAge.text.toString().toInt()
-                val record = MyUser(id = null, userName, userAge)
+                val record = MyUser(id = null, name = userName, age = userAge)
 
                 databaseHelper.insertData(record)
-                userList.add(record)
-
-                databaseAdapter.notifyItemInserted(userList.size - 1)
                 inputName.text?.clear()
                 inputAge.text?.clear()
 
-
-                if(inputID.text!!.isNotEmpty()){
-                val toast = Toast.makeText(this@MainActivity, "You cannot save to an ID, try again by using the update button.", Toast.LENGTH_SHORT)
-                toast.show()
+                if (inputID.text!!.isNotEmpty()) {
+                    val toast = Toast.makeText(
+                        this@MainActivity,
+                        "You cannot save to an ID, try again by using the update button.",
+                        Toast.LENGTH_SHORT
+                    )
+                    toast.show()
                     inputID.text?.clear()
-            }}
+                }
+            }
+
+            btnShowAll.setOnClickListener {
+                fetchData()
+                databaseAdapter.notifyDataSetChanged()
+            }
 
             updateDetails.setOnClickListener {
                 val userName = inputName.text.toString()
                 val userAge = inputAge.text.toString().toInt()
                 val userID = inputID.text.toString().toLong()
-                val record = MyUser(id = userID, userName, userAge)
+                val record = MyUser(id = userID, name = userName, age = userAge)
 
                 databaseHelper.updateUser(record)
 
-                val users = databaseHelper.readData()
-
-                databaseAdapter = DatabaseAdapter(users)
-                recyclerView.adapter = databaseAdapter
+                // Refresh the user list
+                fetchData()
+                databaseAdapter.notifyDataSetChanged()
 
                 inputName.text?.clear()
                 inputAge.text?.clear()
                 inputID.text?.clear()
             }
-
 
             ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -101,10 +100,15 @@ class MainActivity : AppCompatActivity() {
                 ): Boolean {
                     return false
                 }
-            }).attachToRecyclerView(recyclerView)
-
-
-
+            }).attachToRecyclerView(binding.recyclerView)
         }
+    }
+
+    private fun fetchData() {
+        //this clears the userList so its blank and ready to be overwritten with
+        // whatever is in the database
+        userList.clear()
+        //this updates the userList to have everything that the database has
+        userList.addAll(databaseHelper.readData())
     }
 }
